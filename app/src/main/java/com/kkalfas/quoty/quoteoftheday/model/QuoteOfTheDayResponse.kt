@@ -1,5 +1,6 @@
 package com.kkalfas.quoty.quoteoftheday.model
 
+import com.kkalfas.quoty.quotes.data.model.QuoteRemoteModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -7,11 +8,4 @@ import kotlinx.serialization.Serializable
 data class QuoteOfTheDayResponse(
     @SerialName("qotd_date") val timestamp: String,
     @SerialName("quote") val quote: QuoteRemoteModel
-)
-
-@Serializable
-data class QuoteRemoteModel(
-    @SerialName("id") val uuid: UInt,
-    @SerialName("author") val author: String,
-    @SerialName("body") val body: String
 )

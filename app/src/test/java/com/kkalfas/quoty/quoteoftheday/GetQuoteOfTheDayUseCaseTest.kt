@@ -2,8 +2,10 @@ package com.kkalfas.quoty.quoteoftheday
 
 import com.kkalfas.quoty.mocks.MockkTest
 import com.kkalfas.quoty.quoteoftheday.model.QuoteOfTheDayResponse
-import com.kkalfas.quoty.quoteoftheday.model.QuoteRemoteModel
+import com.kkalfas.quoty.quotes.data.QuotesRemoteDataSource
 import com.kkalfas.quoty.quotes.data.QuotesService
+import com.kkalfas.quoty.quotes.data.model.QuoteEntity
+import com.kkalfas.quoty.quotes.data.model.QuoteRemoteModel
 import io.mockk.coEvery
 import io.mockk.coVerify
 import kotlinx.coroutines.runBlocking
@@ -12,29 +14,25 @@ import org.junit.Test
 
 class GetQuoteOfTheDayUseCaseTest : MockkTest() {
 
-    private val quotesService: QuotesService = mockk()
-    private val subject = GetQuoteOfTheDayUseCase(quotesService)
+    private val dataSource: QuotesRemoteDataSource = mockk()
+    private val subject = GetQuoteOfTheDayUseCase(dataSource)
 
     @Test
-    fun `given model from service when invoked then returns mapped model`() {
+    fun `when invoked then calls data source getQuoteOfTheDay`() {
         // given
-        val givenQuote = QuoteRemoteModel(
+        val givenQuote = QuoteEntity(
             uuid = 1u,
             body = "body",
             author = "author"
         )
-        val givenResponse = QuoteOfTheDayResponse(
-            timestamp = "timestamp",
-            quote = givenQuote
-        )
-        coEvery { quotesService.quoteOfTheDay() } returns givenResponse
+        coEvery { dataSource.getQuoteOfTheDay() } returns givenQuote
 
         // when
         val result = runBlocking { subject() }
 
         // then
         coVerify(exactly = 1) {
-            quotesService.quoteOfTheDay()
+            dataSource.getQuoteOfTheDay()
         }
         with(result) {
             assertThat(uuid).isEqualTo(givenQuote.uuid)
