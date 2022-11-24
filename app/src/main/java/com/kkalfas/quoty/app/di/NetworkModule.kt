@@ -1,6 +1,6 @@
 package com.kkalfas.quoty.app.di
 
-import com.kkalfas.quoty.network.KtorClientProvider
+import com.kkalfas.quoty.network.ktor.KtorClientProvider
 import com.kkalfas.quoty.network.NetworkClientProvider
 import com.kkalfas.quoty.quotes.data.QuotesService
 import dagger.Binds
