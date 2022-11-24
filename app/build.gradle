@@ -8,6 +8,12 @@ plugins {
 
 ext {
     composeVersion = '1.3.1'
+
+    FIELD_API_KEY = "FAVQS_API_KEY"
+    propetiesPath = "${project.rootDir}/local.properties"
+    Properties properties = loadProperties(propetiesPath)
+    API_KEY = getProperty(FIELD_API_KEY, properties, propetiesPath)
+    if (API_KEY == null || API_KEY == "") throw new GradleException("YOU NEED API_KEY IN local.properties API_KEY=\"yourkeyhere\" ")
 }
 
 android {
@@ -25,6 +31,11 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+
+        // UNSAFE STILL CAN BE FOUND WHEN REVERSE ENGINEERING BUT
+        // THE SAFEST WAY IS PUTTING KEYS IN C MODULE BUT THIS IS NOT IN THE SCOPE
+        // AT LEAST THE KEY IS NOT IN REPOSITORY HE HE HE
+        buildConfigField 'String', 'API_KEY', API_KEY
     }
 
     buildTypes {
@@ -107,4 +118,32 @@ dependencies {
 
 kapt {
     correctErrorTypes = true
+}
+
+//Helper functions
+String getProperty(propertyName, properties, propertyPath) {
+
+    println("getProperty name: ${propertyName} from path: ${propertyPath}")
+
+    if (properties.getProperty(propertyName) != null) {
+        return properties.getProperty(propertyName)
+    } else {
+        throw new InvalidUserDataException(propertyKeyNotDefined(propertyName, propertyPath))
+    }
+}
+
+Properties loadProperties(path) {
+    println("loadProperties from path: ${path}")
+
+    Properties properties = new Properties()
+    try {
+        new File(path).withInputStream { instr ->
+            properties.load(instr)
+        }
+    } catch (ex) {
+        ex.printStackTrace()
+        showConsoleError("NO PROPERTIES HAVE BEEN FOUND ON PATH: ${path}\"\nPLEASE MAKE SURE BUILD CONFIG RELEASE FOLDER HAS BEEN ADDED\n${properties}")
+    }
+
+    return properties
 }
