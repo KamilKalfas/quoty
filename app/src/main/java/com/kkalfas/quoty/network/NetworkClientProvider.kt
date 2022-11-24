@@ -19,29 +19,13 @@ interface NetworkClientProvider<T> {
     val client: T
 }
 
-@OptIn(ExperimentalSerializationApi::class)
 class KtorClientProvider(engine: HttpClientEngine) : NetworkClientProvider<HttpClient> {
     override val client: HttpClient by lazy {
         HttpClient(engine) {
             install(UserAgent) { agent = "ktor" }
 
-            // JSON serialization
-            install(ContentNegotiation) {
-                json(
-                    Json {
-                        prettyPrint = true
-                        isLenient = true
-                        ignoreUnknownKeys = true
-                        explicitNulls = false
-                    }
-                )
-            }
-
-            // default headers
-            install(DefaultRequest) {
-                header(HttpHeaders.ContentType, ContentType.Application.Json)
-            }
-
+            installDefaultHeaders()
+            installJSONSerialization()
             // logging
             if (BuildConfig.DEBUG) {
                 install(Logging) {
@@ -50,5 +34,30 @@ class KtorClientProvider(engine: HttpClientEngine) : NetworkClientProvider<HttpC
             }
         }
     }
+}
 
+/**
+ * Extracted to have same implementation in MockEngine
+ */
+@OptIn(ExperimentalSerializationApi::class)
+fun HttpClientConfig<*>.installJSONSerialization() {
+    install(ContentNegotiation) {
+        json(
+            Json {
+                prettyPrint = true
+                isLenient = true
+                ignoreUnknownKeys = true
+                explicitNulls = false
+            }
+        )
+    }
+}
+
+/**
+ * Extracted to have same implementation in MockEngine
+ */
+fun HttpClientConfig<*>.installDefaultHeaders() {
+    install(DefaultRequest) {
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+    }
 }
