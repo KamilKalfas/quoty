@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.kkalfas.quoty">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
@@ -12,7 +14,7 @@
         android:theme="@style/Theme.Quoty"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".app.presentation.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.Quoty">
             <intent-filter>
