@@ -1,4 +1,4 @@
-package com.kkalfas.quoty.quoteoftheday.model
+package com.kkalfas.quoty.quotes.data.remote
 
 import com.kkalfas.quoty.quotes.data.model.QuoteRemoteModel
 import kotlinx.serialization.SerialName

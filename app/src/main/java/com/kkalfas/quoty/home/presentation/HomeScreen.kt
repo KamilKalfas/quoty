@@ -17,8 +17,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kkalfas.quoty.R
-import com.kkalfas.quoty.quoteoftheday.model.QuoteOfTheDayUiModel
-import com.kkalfas.quoty.quoteoftheday.presentation.components.QuoteOfTheDay
+import com.kkalfas.quoty.quotes.domain.model.QuoteModel
+import com.kkalfas.quoty.quotes.presentation.QuoteOfTheDay
 
 @Composable
 fun HomeScreen(
@@ -44,14 +44,14 @@ private fun HomeContainer(
             .fillMaxSize()
     ) {
         state.quoteOfTheDay?.let {
-            QuoteOfTheDaySection(quoteOfTheDay = it)
+            QuoteOfTheDaySection(quote = it)
         }
     }
 }
 
 @Composable
 private fun QuoteOfTheDaySection(
-    quoteOfTheDay: QuoteOfTheDayUiModel
+    quote: QuoteModel
 ) {
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
         Text(
@@ -60,7 +60,7 @@ private fun QuoteOfTheDaySection(
             textAlign = TextAlign.Start,
         )
         QuoteOfTheDay(
-            quote = quoteOfTheDay
+            quote = quote
         )
         Spacer(modifier = Modifier.height(8.dp))
     }
