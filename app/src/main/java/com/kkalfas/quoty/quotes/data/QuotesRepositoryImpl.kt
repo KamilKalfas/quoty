@@ -3,8 +3,8 @@ package com.kkalfas.quoty.quotes.data
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.kkalfas.quoty.quotes.data.remote.QuotesRemoteDataSource
 import com.kkalfas.quoty.quotes.data.model.QuoteEntity
+import com.kkalfas.quoty.quotes.data.remote.QuotesRemoteDataSource
 import com.kkalfas.quoty.quotes.domain.QuotesRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

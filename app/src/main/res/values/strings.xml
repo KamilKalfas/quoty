@@ -2,4 +2,8 @@
     <string name="app_name">Quoty</string>
 
     <string name="home_quote_of_the_day_title">Quote of the day</string>
+
+    <string name="label_bottom_nav_home">Home</string>
+    <string name="label_bottom_nav_search">Search</string>
+    <string name="label_bottom_nav_profile">Profile</string>
 </resources>

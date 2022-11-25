@@ -7,7 +7,6 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.kkalfas.quoty.home.presentation.HomeScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,9 +27,7 @@ class MainActivity : ComponentActivity() {
                     darkIcons = true,
                 )
             }
-            MainScreen {
-                HomeScreen()
-            }
+            MainScreen()
         }
     }
 }
