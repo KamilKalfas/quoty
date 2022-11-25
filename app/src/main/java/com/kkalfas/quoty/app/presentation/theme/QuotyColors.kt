@@ -17,7 +17,7 @@ private object QuotyColors {
 val LightThemeColors = lightColors(
     primary = QuotyColors.blue_gray,
     secondary = QuotyColors.pink,
-    surface = QuotyColors.white,
-    background = QuotyColors.almond,
+    surface = QuotyColors.almond,
+    background = QuotyColors.white,
     onPrimary = QuotyColors.white
 )

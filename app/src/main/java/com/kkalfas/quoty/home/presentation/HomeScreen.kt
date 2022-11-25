@@ -1,21 +1,28 @@
 package com.kkalfas.quoty.home.presentation
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.items
 import com.kkalfas.quoty.R
 import com.kkalfas.quoty.quotes.domain.model.QuoteModel
 import com.kkalfas.quoty.quotes.presentation.QuoteOfTheDay
@@ -26,17 +33,19 @@ fun HomeScreen(
     viewModel: HomeViewModel = viewModel()
 ) {
     val state by viewModel.state.collectAsState()
-
+    val quotes = viewModel.pagingState.collectAsLazyPagingItems()
     HomeContainer(
         modifier = modifier,
-        state = state
+        state = state,
+        quotes = quotes
     )
 }
 
 @Composable
 private fun HomeContainer(
     modifier: Modifier = Modifier,
-    state: HomeUiState
+    state: HomeUiState,
+    quotes: LazyPagingItems<QuoteModel>
 ) {
     Column(
         modifier = modifier
@@ -46,6 +55,7 @@ private fun HomeContainer(
         state.quoteOfTheDay?.let {
             QuoteOfTheDaySection(quote = it)
         }
+        QuotesSection(quotes)
     }
 }
 
@@ -63,5 +73,84 @@ private fun QuoteOfTheDaySection(
             quote = quote
         )
         Spacer(modifier = Modifier.height(8.dp))
+    }
+}
+
+@Composable
+private fun QuotesSection(
+    quotes: LazyPagingItems<QuoteModel>
+) {
+    LazyColumn(
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp),
+        verticalArrangement = Arrangement.spacedBy(20.dp)
+    ) {
+        item {
+            Text(
+                text = "Quotes",
+                style = MaterialTheme.typography.h5
+            )
+        }
+        paginationLoadingState(quotes.loadState.prepend)
+        paginationLoadingState(quotes.loadState.refresh)
+        paginationLoadingState(quotes.loadState.append)
+        items(
+            items = quotes,
+            key = { it.uuid.toInt() }
+        ) {
+            it?.let {
+                Quote(quote = it)
+            }
+        }
+
+    }
+}
+
+private fun LazyListScope.paginationLoadingState(loadState: LoadState) {
+    when (loadState) {
+        is LoadState.NotLoading -> Unit
+        is LoadState.Loading -> {
+            item {
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator(modifier = Modifier.padding(16.dp), color = MaterialTheme.colors.secondary)
+                }
+            }
+        }
+        is LoadState.Error -> {
+            item {
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = loadState.error.message ?: "",
+                        style = MaterialTheme.typography.h6,
+                        color = MaterialTheme.colors.error
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun Quote(
+    quote: QuoteModel
+) {
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(8.dp))
+            .background(MaterialTheme.colors.background)
+            .padding(all = 24.dp)) {
+        Text(text = quote.body)
+        Divider(
+            modifier = Modifier.padding(vertical = 8.dp),
+            color = MaterialTheme.colors.primaryVariant,
+            thickness = 1.dp
+        )
+        Text(text = quote.author)
     }
 }
