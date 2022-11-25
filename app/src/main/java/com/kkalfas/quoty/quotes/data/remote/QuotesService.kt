@@ -1,6 +1,8 @@
 package com.kkalfas.quoty.quotes.data.remote
 
+import com.kkalfas.quoty.BuildConfig
 import com.kkalfas.quoty.network.NetworkClientProvider
+import com.kkalfas.quoty.network.ktor.authHeader
 import com.kkalfas.quoty.quotes.data.model.QuotesResponse
 import io.ktor.client.*
 import io.ktor.client.call.*
@@ -36,6 +38,7 @@ interface QuotesService {
 
         override suspend fun quotes(page: Int): QuotesResponse {
             val response = client.get {
+                authHeader(BuildConfig.API_KEY)
                 url {
                     protocol = URLProtocol.HTTPS
                     host = HOST
