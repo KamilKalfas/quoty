@@ -1,7 +1,7 @@
 package com.kkalfas.quoty.mocks
 
-import com.kkalfas.quoty.network.installDefaultHeaders
-import com.kkalfas.quoty.network.installJSONSerialization
+import com.kkalfas.quoty.network.ktor.installDefaultHeaders
+import com.kkalfas.quoty.network.ktor.installJSONSerialization
 import io.ktor.client.*
 import io.ktor.client.engine.mock.*
 import io.ktor.http.*

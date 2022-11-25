@@ -1,52 +1,27 @@
 package com.kkalfas.quoty.quotes
 
 import com.kkalfas.quoty.mocks.MockkTest
-import com.kkalfas.quoty.quotes.data.QuotesRemoteDataSource
-import com.kkalfas.quoty.quotes.data.model.QuoteEntity
-import com.kkalfas.quoty.quotes.data.model.QuotesPaginationModel
+import com.kkalfas.quoty.quotes.domain.GetQuotesUseCase
+import com.kkalfas.quoty.quotes.domain.QuotesRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.slot
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.runBlocking
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
 class GetQuotesUseCaseTest : MockkTest() {
 
-    private val dataSource: QuotesRemoteDataSource = mockk()
-    private val subject = GetQuotesUseCase(dataSource)
+    private val repository: QuotesRepository = mockk()
+    private val subject = GetQuotesUseCase(repository)
 
     @Test
-    fun `given param when invoked then calls data source getQuotes with param`() {
+    fun `when invoked then calls repository quotesStream`() {
         // given
-        val pageSlot = slot<Int>()
-        val givenPageNumber = 1
-        val givenQuoteEntities = listOf(QuoteEntity(1u, "a", "b"))
-        val givenQuotes = QuotesPaginationModel(
-            page = givenPageNumber,
-            isLastPage = false,
-            quotes = givenQuoteEntities
-        )
-        coEvery { dataSource.getQuotes(givenPageNumber) } returns flowOf(givenQuotes)
+        coEvery { repository.quotesStream() } returns mockk()
 
         // when
-        val flow = subject.invoke(givenPageNumber)
+        subject()
 
-        // then
-        runBlocking {
-            flow.collect {
-                assertThat(it.page).isEqualTo(givenQuotes.page)
-                assertThat(it.isLastPage).isEqualTo(givenQuotes.isLastPage)
-                assertThat(it.quotes.size).isEqualTo(givenQuoteEntities.size)
-                assertThat(it.quotes[0]).isEqualTo(givenQuoteEntities[0])
-            }
-        }
-
-        // then
         coVerify(exactly = 1) {
-            dataSource.getQuotes(capture(pageSlot))
+            repository.quotesStream()
         }
-        assertThat(pageSlot.captured).isEqualTo(givenPageNumber)
     }
 }

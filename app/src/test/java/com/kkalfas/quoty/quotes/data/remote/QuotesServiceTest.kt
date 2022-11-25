@@ -1,11 +1,10 @@
-package com.kkalfas.quoty.quotes.data
+package com.kkalfas.quoty.quotes.data.remote
 
 import com.kkalfas.quoty.mocks.InternalServerError
 import com.kkalfas.quoty.mocks.MockkTest
 import com.kkalfas.quoty.mocks.mockClientRespondWith
 import com.kkalfas.quoty.mocks.response.ResponseQuoteOfTheDay
 import com.kkalfas.quoty.network.NetworkClientProvider
-import com.kkalfas.quoty.quoteoftheday.model.QuoteOfTheDayResponse
 import io.ktor.client.*
 import io.mockk.every
 import kotlinx.coroutines.runBlocking

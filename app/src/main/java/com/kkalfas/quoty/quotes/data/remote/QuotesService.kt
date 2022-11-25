@@ -1,16 +1,11 @@
-package com.kkalfas.quoty.quotes.data
+package com.kkalfas.quoty.quotes.data.remote
 
 import com.kkalfas.quoty.network.NetworkClientProvider
-import com.kkalfas.quoty.quoteoftheday.model.QuoteOfTheDayResponse
-import com.kkalfas.quoty.quotes.data.model.QuoteRemoteModel
 import com.kkalfas.quoty.quotes.data.model.QuotesResponse
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.http.*
-import kotlinx.coroutines.flow.Flow
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
 import javax.inject.Inject
 
 private const val HOST = "favqs.com"
@@ -21,7 +16,6 @@ interface QuotesService {
 
     suspend fun quoteOfTheDay(): QuoteOfTheDayResponse
     suspend fun quotes(page: Int) : QuotesResponse
-
 
     class Impl @Inject constructor(
         clientProvider: NetworkClientProvider<HttpClient>
