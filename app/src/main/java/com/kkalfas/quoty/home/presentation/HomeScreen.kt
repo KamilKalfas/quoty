@@ -34,6 +34,7 @@ fun HomeScreen(
 ) {
     val state by viewModel.state.collectAsState()
     val quotes = viewModel.pagingState.collectAsLazyPagingItems()
+    ErrorToast(state.errorMessage)
     HomeContainer(
         modifier = modifier,
         state = state,

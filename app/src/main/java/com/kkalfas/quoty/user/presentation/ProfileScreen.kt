@@ -28,6 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.kkalfas.quoty.app.presentation.theme.QuotyTheme
+import com.kkalfas.quoty.home.presentation.ErrorToast
 import com.kkalfas.quoty.user.domain.model.UserModel
 import java.util.*
 
@@ -63,6 +64,7 @@ fun ProfileScreen(
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
+    ErrorToast(state.errorMessage)
     ProfileContent(
         state = state,
         onLoginButtonAction = viewModel::onLoginAction,
