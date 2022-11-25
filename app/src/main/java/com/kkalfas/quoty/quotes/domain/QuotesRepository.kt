@@ -8,5 +8,7 @@ interface QuotesRepository {
 
     suspend fun quoteOfTheDay(): QuoteEntity
 
+    suspend fun quote(id: UInt): QuoteEntity
+
     fun quotesStream(): Flow<PagingData<QuoteEntity>>
 }

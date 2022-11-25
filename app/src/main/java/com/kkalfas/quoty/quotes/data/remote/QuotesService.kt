@@ -3,6 +3,7 @@ package com.kkalfas.quoty.quotes.data.remote
 import com.kkalfas.quoty.BuildConfig
 import com.kkalfas.quoty.network.NetworkClientProvider
 import com.kkalfas.quoty.network.ktor.authHeader
+import com.kkalfas.quoty.quotes.data.model.QuoteRemoteModel
 import com.kkalfas.quoty.quotes.data.model.QuotesResponse
 import io.ktor.client.*
 import io.ktor.client.call.*
@@ -17,6 +18,7 @@ private const val PATH_QUOTES = "/api/quotes"
 interface QuotesService {
 
     suspend fun quoteOfTheDay(): QuoteOfTheDayResponse
+    suspend fun quote(id: UInt): QuoteRemoteModel
     suspend fun quotes(page: Int) : QuotesResponse
 
     class Impl @Inject constructor(
@@ -31,6 +33,18 @@ interface QuotesService {
                     protocol = URLProtocol.HTTPS
                     host = HOST
                     path(PATH_QUOTD)
+                }
+            }
+            return response.body()
+        }
+
+        override suspend fun quote(id: UInt): QuoteRemoteModel {
+            val response = client.get {
+                authHeader(BuildConfig.API_KEY)
+                url {
+                    protocol = URLProtocol.HTTPS
+                    host = HOST
+                    path(PATH_QUOTES, id.toString())
                 }
             }
             return response.body()

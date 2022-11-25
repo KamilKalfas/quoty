@@ -18,6 +18,7 @@ import com.kkalfas.quoty.app.presentation.navigation.transitions.defaultExitTran
 import com.kkalfas.quoty.app.presentation.navigation.transitions.defaultPopEnterTransition
 import com.kkalfas.quoty.app.presentation.navigation.transitions.defaultPopExitTransition
 import com.kkalfas.quoty.home.presentation.HomeScreen
+import com.kkalfas.quoty.quotes.presentation.QuoteDetailsScreen
 import com.kkalfas.quoty.user.presentation.ProfileScreen
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -36,7 +37,17 @@ fun NavigationGraph(
         popExitTransition = defaultPopExitTransition
     ) {
         composable(Screen.Home.route) {
-            HomeScreen()
+            HomeScreen(onItemClick = {
+                navController.navigate(HomeDestination.QuoteDetails.destination(it))
+            })
+        }
+        composable(
+            route = HomeDestination.QuoteDetails.route,
+            arguments = HomeDestination.QuoteDetails.arguments
+        ) {
+            QuoteDetailsScreen(
+                onNavBackAction = { navController.navigateUp() }
+            )
         }
         composable(Screen.Search.route) {
             Column(
@@ -44,7 +55,7 @@ fun NavigationGraph(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                Text(text = it.destination.route.toString())
+                Text(text = "No time for ${it.destination.route}")
             }
         }
         composable(Screen.Profile.route) {

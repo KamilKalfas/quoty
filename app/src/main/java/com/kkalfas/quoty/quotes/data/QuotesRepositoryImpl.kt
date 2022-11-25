@@ -18,6 +18,8 @@ class QuotesRepositoryImpl @Inject constructor(
 
     override suspend fun quoteOfTheDay() = quotesRemoteDataSource.getQuoteOfTheDay()
 
+    override suspend fun quote(id: UInt) = quotesRemoteDataSource.getQuoteById(id)
+
     override fun quotesStream(): Flow<PagingData<QuoteEntity>> {
         return Pager(
             pagingSourceFactory = { quotesPagingSource },

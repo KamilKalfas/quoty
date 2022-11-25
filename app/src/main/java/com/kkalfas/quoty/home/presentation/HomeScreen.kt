@@ -1,6 +1,7 @@
 package com.kkalfas.quoty.home.presentation
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
@@ -30,6 +31,7 @@ import com.kkalfas.quoty.quotes.presentation.QuoteOfTheDay
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
+    onItemClick: (Int) -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
@@ -38,7 +40,8 @@ fun HomeScreen(
     HomeContainer(
         modifier = modifier,
         state = state,
-        quotes = quotes
+        quotes = quotes,
+        onItemClick = onItemClick
     )
 }
 
@@ -46,7 +49,8 @@ fun HomeScreen(
 private fun HomeContainer(
     modifier: Modifier = Modifier,
     state: HomeUiState,
-    quotes: LazyPagingItems<QuoteItemModel>
+    quotes: LazyPagingItems<QuoteItemModel>,
+    onItemClick: (Int) -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -56,7 +60,10 @@ private fun HomeContainer(
         state.quoteOfTheDay?.let {
             QuoteOfTheDaySection(quote = it)
         }
-        QuotesSection(quotes)
+        QuotesSection(
+            quotes = quotes,
+            onItemClick = onItemClick
+        )
     }
 }
 
@@ -79,7 +86,8 @@ private fun QuoteOfTheDaySection(
 
 @Composable
 private fun QuotesSection(
-    quotes: LazyPagingItems<QuoteItemModel>
+    quotes: LazyPagingItems<QuoteItemModel>,
+    onItemClick: (Int) -> Unit,
 ) {
     LazyColumn(
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp),
@@ -99,7 +107,10 @@ private fun QuotesSection(
             key = { it.uuid.toInt() }
         ) {
             it?.let {
-                Quote(quote = it)
+                QuoteRowItem(
+                    quote = it,
+                    onItemClick = onItemClick
+                )
             }
         }
 
@@ -137,15 +148,18 @@ private fun LazyListScope.paginationLoadingState(loadState: LoadState) {
 }
 
 @Composable
-private fun Quote(
-    quote: QuoteItemModel
+private fun QuoteRowItem(
+    quote: QuoteItemModel,
+    onItemClick: (Int) -> Unit
 ) {
     Column(
         Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(8.dp))
             .background(MaterialTheme.colors.background)
-            .padding(all = 24.dp)) {
+            .padding(all = 24.dp)
+            .clickable { onItemClick(quote.uuid.toInt()) }
+    ) {
         Text(text = quote.body)
         Divider(
             modifier = Modifier.padding(vertical = 8.dp),

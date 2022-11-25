@@ -10,6 +10,8 @@ class QuotesRemoteDataSource @Inject constructor(
 
     suspend fun getQuoteOfTheDay(): QuoteEntity = quotesService.quoteOfTheDay().quote.toEntity()
 
+    suspend fun getQuoteById(id: UInt): QuoteEntity = quotesService.quote(id).toEntity()
+
     suspend fun getQuotes(page: Int): QuotesPaginationModel {
         val response = quotesService.quotes(page)
         return QuotesPaginationModel(response.page, response.isLastPage, response.quotes.map { it.toEntity() })
