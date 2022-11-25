@@ -1,4 +1,4 @@
-package com.kkalfas.quoty.app.di
+package com.kkalfas.quoty.di
 
 import com.kkalfas.quoty.app.AppDispatchers
 import dagger.Module
