@@ -22,7 +22,11 @@ class GetQuoteOfTheDayUseCaseTest : MockkTest() {
         val givenQuote = QuoteEntity(
             uuid = 1u,
             body = "body",
-            author = "author"
+            author = "author",
+            downwotes = 0,
+            favs = 0,
+            tags = emptyList(),
+            upvotes = 0
         )
         coEvery { repository.quoteOfTheDay() } returns givenQuote
 
