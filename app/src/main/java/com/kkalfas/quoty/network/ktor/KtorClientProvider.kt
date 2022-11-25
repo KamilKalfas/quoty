@@ -1,5 +1,6 @@
 package com.kkalfas.quoty.network.ktor
 
+import android.util.Log
 import com.kkalfas.quoty.BuildConfig
 import com.kkalfas.quoty.network.NetworkClientProvider
 import io.ktor.client.*
@@ -24,7 +25,12 @@ class KtorClientProvider(engine: HttpClientEngine) : NetworkClientProvider<HttpC
             // logging
             if (BuildConfig.DEBUG) {
                 install(Logging) {
-                    level = LogLevel.ALL
+                    logger = object : Logger {
+                        override fun log(message: String) {
+                            Log.d("BONJOUR", message)
+                        }
+                    }
+                    level = LogLevel.BODY
                 }
             }
         }
