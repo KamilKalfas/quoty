@@ -11,7 +11,7 @@ import com.kkalfas.quoty.app.Async
 import com.kkalfas.quoty.app.Async.Companion.then
 import com.kkalfas.quoty.quotes.domain.GetQuoteOfTheDayUseCase
 import com.kkalfas.quoty.quotes.domain.GetQuotesUseCase
-import com.kkalfas.quoty.quotes.domain.model.QuoteModel
+import com.kkalfas.quoty.quotes.domain.model.QuoteItemModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -27,7 +27,7 @@ import javax.inject.Inject
 
 data class HomeUiState(
     val errorMessage: String = "",
-    val quoteOfTheDay: QuoteModel? = null,
+    val quoteOfTheDay: QuoteItemModel? = null,
 )
 
 private const val STATE_KEY_ERROR_MESSAGE = "error_message"
@@ -41,9 +41,9 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _errorMessage = savedStateHandle.getStateFlow(STATE_KEY_ERROR_MESSAGE, "")
-    private val _quoteOfTheDay: MutableStateFlow<QuoteModel?> = MutableStateFlow(null)
+    private val _quoteOfTheDay: MutableStateFlow<QuoteItemModel?> = MutableStateFlow(null)
 
-    val pagingState: Flow<PagingData<QuoteModel>> = getQuotesUseCase()
+    val pagingState: Flow<PagingData<QuoteItemModel>> = getQuotesUseCase()
         .cachedIn(viewModelScope)
         .retry(3)
         .catch { e ->

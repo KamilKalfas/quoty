@@ -24,7 +24,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.kkalfas.quoty.R
-import com.kkalfas.quoty.quotes.domain.model.QuoteModel
+import com.kkalfas.quoty.quotes.domain.model.QuoteItemModel
 import com.kkalfas.quoty.quotes.presentation.QuoteOfTheDay
 
 @Composable
@@ -46,7 +46,7 @@ fun HomeScreen(
 private fun HomeContainer(
     modifier: Modifier = Modifier,
     state: HomeUiState,
-    quotes: LazyPagingItems<QuoteModel>
+    quotes: LazyPagingItems<QuoteItemModel>
 ) {
     Column(
         modifier = modifier
@@ -62,7 +62,7 @@ private fun HomeContainer(
 
 @Composable
 private fun QuoteOfTheDaySection(
-    quote: QuoteModel
+    quote: QuoteItemModel
 ) {
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
         Text(
@@ -79,7 +79,7 @@ private fun QuoteOfTheDaySection(
 
 @Composable
 private fun QuotesSection(
-    quotes: LazyPagingItems<QuoteModel>
+    quotes: LazyPagingItems<QuoteItemModel>
 ) {
     LazyColumn(
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp),
@@ -138,7 +138,7 @@ private fun LazyListScope.paginationLoadingState(loadState: LoadState) {
 
 @Composable
 private fun Quote(
-    quote: QuoteModel
+    quote: QuoteItemModel
 ) {
     Column(
         Modifier

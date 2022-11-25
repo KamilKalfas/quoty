@@ -17,20 +17,20 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kkalfas.quoty.app.presentation.theme.QuotyTheme
-import com.kkalfas.quoty.quotes.domain.model.QuoteModel
+import com.kkalfas.quoty.quotes.domain.model.QuoteItemModel
 
 @Preview
 @Composable
 private fun PreviewQOTDComponent() {
     QuotyTheme {
-        QuoteOfTheDay(quote = QuoteModel(uuid = 1u,"Abe", "Ex nihilo nihil fit Ex nihilo nihil fit Ex nihilo nihil fit Ex nihilo nihil fit"))
+        QuoteOfTheDay(quote = QuoteItemModel(uuid = 1u,"Abe", "Ex nihilo nihil fit Ex nihilo nihil fit Ex nihilo nihil fit Ex nihilo nihil fit"))
     }
 }
 
 @Composable
 fun QuoteOfTheDay(
     modifier: Modifier = Modifier,
-    quote: QuoteModel
+    quote: QuoteItemModel
 ) {
     Column(
         modifier = modifier.then(

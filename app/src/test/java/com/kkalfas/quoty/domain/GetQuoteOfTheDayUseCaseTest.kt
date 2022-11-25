@@ -4,7 +4,7 @@ import com.kkalfas.quoty.mocks.MockkTest
 import com.kkalfas.quoty.quotes.data.model.QuoteEntity
 import com.kkalfas.quoty.quotes.domain.GetQuoteOfTheDayUseCase
 import com.kkalfas.quoty.quotes.domain.QuotesRepository
-import com.kkalfas.quoty.quotes.domain.model.QuoteModel
+import com.kkalfas.quoty.quotes.domain.model.QuoteItemModel
 import io.mockk.coEvery
 import io.mockk.coVerify
 import kotlinx.coroutines.runBlocking
@@ -34,7 +34,7 @@ class GetQuoteOfTheDayUseCaseTest : MockkTest() {
             repository.quoteOfTheDay()
         }
         with(result) {
-            assertThat(result).isInstanceOf(QuoteModel::class.java)
+            assertThat(result).isInstanceOf(QuoteItemModel::class.java)
             assertThat(uuid).isEqualTo(givenQuote.uuid)
             assertThat(author).isEqualTo(givenQuote.author)
             assertThat(body).isEqualTo(givenQuote.body)

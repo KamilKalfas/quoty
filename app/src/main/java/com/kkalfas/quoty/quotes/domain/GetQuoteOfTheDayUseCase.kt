@@ -1,13 +1,13 @@
 package com.kkalfas.quoty.quotes.domain
 
-import com.kkalfas.quoty.quotes.domain.model.QuoteModel
+import com.kkalfas.quoty.quotes.domain.model.QuoteItemModel
 import javax.inject.Inject
 
 class GetQuoteOfTheDayUseCase @Inject constructor(
     private val repository: QuotesRepository
 ) {
-    suspend operator fun invoke(): QuoteModel {
+    suspend operator fun invoke(): QuoteItemModel {
         val (uuid, author, body) = repository.quoteOfTheDay()
-        return QuoteModel(uuid, author, body)
+        return QuoteItemModel(uuid, author, body)
     }
 }
