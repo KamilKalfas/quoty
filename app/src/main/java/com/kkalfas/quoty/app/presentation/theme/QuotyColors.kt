@@ -20,5 +20,6 @@ val LightThemeColors = lightColors(
     secondaryVariant = QuotyColors.pink_light,
     surface = QuotyColors.blue_gray_light,
     background = QuotyColors.white,
-    onPrimary = QuotyColors.white
+    onPrimary = QuotyColors.white,
+    onSecondary = QuotyColors.white
 )

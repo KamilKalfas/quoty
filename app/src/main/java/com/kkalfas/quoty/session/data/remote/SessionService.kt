@@ -4,7 +4,6 @@ import com.kkalfas.quoty.BuildConfig
 import com.kkalfas.quoty.network.NetworkClientProvider
 import com.kkalfas.quoty.network.ktor.authHeader
 import com.kkalfas.quoty.session.data.model.CreateSessionRequest
-import com.kkalfas.quoty.session.data.model.CreateSessionRequestFactory
 import com.kkalfas.quoty.session.data.model.CreateSessionResponse
 import com.kkalfas.quoty.session.data.model.DestroySessionResponse
 import com.kkalfas.quoty.session.data.model.User

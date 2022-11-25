@@ -18,6 +18,7 @@ import com.kkalfas.quoty.app.presentation.navigation.transitions.defaultExitTran
 import com.kkalfas.quoty.app.presentation.navigation.transitions.defaultPopEnterTransition
 import com.kkalfas.quoty.app.presentation.navigation.transitions.defaultPopExitTransition
 import com.kkalfas.quoty.home.presentation.HomeScreen
+import com.kkalfas.quoty.user.presentation.ProfileScreen
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -47,13 +48,7 @@ fun NavigationGraph(
             }
         }
         composable(Screen.Profile.route) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text(text = it.destination.route.toString())
-            }
+            ProfileScreen()
         }
     }
 }

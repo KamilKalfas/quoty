@@ -4,9 +4,10 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import com.kkalfas.quoty.app.presentation.bottomnav.BottomNavItem
 import com.kkalfas.quoty.app.presentation.bottomnav.BottomNavigationComponent
 import com.kkalfas.quoty.app.presentation.navigation.NavigationGraph
 import com.kkalfas.quoty.app.presentation.theme.QuotyTheme
@@ -20,9 +21,10 @@ fun MainScreen() {
             backgroundColor = MaterialTheme.colors.surface,
             drawerGesturesEnabled = false,
             bottomBar = {
+                val navBackStackEntry by navController.currentBackStackEntryAsState()
+                val currentDestination = navBackStackEntry?.destination
                 BottomNavigationComponent(
-                    navHostController = navController,
-                    selectedNavigation = BottomNavItem.Home,
+                    selectedNavigation = currentDestination,
                     onNavigationSelected = { selected ->
                         navController.navigate(selected.screen.route) {
                             // Pop up to the start destination of the graph to

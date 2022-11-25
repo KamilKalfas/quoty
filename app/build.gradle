@@ -88,6 +88,8 @@ dependencies {
     // AndroidX
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.activity:activity-compose:1.6.1'
+    var securityVersion = "1.0.0"
+    implementation "androidx.security:security-crypto:$securityVersion"
 
     // Material 2
     implementation 'com.google.android.material:material:1.7.0'
@@ -109,6 +111,9 @@ dependencies {
     implementation "io.ktor:ktor-client-content-negotiation:$ktorVersion"
     implementation "io.ktor:ktor-serialization-kotlinx-json:$ktorVersion"
     implementation "io.ktor:ktor-client-logging:$ktorVersion"
+
+    // Coil
+    implementation "io.coil-kt:coil-compose:2.2.2"
 
     // TEST Ktor mock engine
     testImplementation "io.ktor:ktor-client-mock:$ktorVersion"
