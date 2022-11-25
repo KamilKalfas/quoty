@@ -4,8 +4,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kkalfas.quoty.app.AppDispatchers
-import com.kkalfas.quoty.quoteoftheday.GetQuoteOfTheDayUseCase
-import com.kkalfas.quoty.quoteoftheday.model.QuoteOfTheDayUiModel
+import com.kkalfas.quoty.quotes.domain.GetQuoteOfTheDayUseCase
+import com.kkalfas.quoty.quotes.domain.model.QuoteModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 data class HomeUiState(
     val isLoading: Boolean = true,
-    val quoteOfTheDay: QuoteOfTheDayUiModel? = null
+    val quoteOfTheDay: QuoteModel? = null
 )
 
 @HiltViewModel
@@ -28,11 +28,11 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _isLoading = MutableStateFlow(false)
-    private val _quoteOfTheDay: MutableStateFlow<QuoteOfTheDayUiModel?> = MutableStateFlow(null)
+    private val _quoteOfTheDay: MutableStateFlow<QuoteModel?> = MutableStateFlow(null)
 
     init {
         viewModelScope.launch(dispatchers.io) {
-            _quoteOfTheDay.value = getQuoteOfTheDayUseCase.invoke().toQuoteOfTheDayModel()
+            _quoteOfTheDay.value = getQuoteOfTheDayUseCase()
         }
     }
 
